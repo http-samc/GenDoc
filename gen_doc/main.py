@@ -27,6 +27,9 @@ def extractDocStrings(filepath: str) -> str:
         ### <function name>
         <function DocString>
         ...
+
+        tuple: Contains 1 item, the markdown-ready string, if no functions were found;
+        used to signal an ommitance of this file
     """
 
     filename: str = os.path.basename(filepath)
@@ -65,6 +68,9 @@ def extractDocStrings(filepath: str) -> str:
         # Adding structured class list to functions list
         functions.append(class_)
 
+    if len(functions) == 0:
+        return tuple(retStr)
+
     for node in functions:
         if not isinstance(node, list):
             functionDocString = ast.get_docstring(node)
@@ -90,7 +96,6 @@ def extractDocStrings(filepath: str) -> str:
             retStr += f"#### ``{className}``: {function.name}\n" # adding class name in function def w/ nested emphasis
             retStr += f"{functionDocString if functionDocString is not None else voidDocStringMSG}\n"
 
-
     return retStr
 
 def getPythonFiles(dir: str = None) -> list:
@@ -103,7 +108,7 @@ def getPythonFiles(dir: str = None) -> list:
         list: a list of str objects representing a path to a .py file
     """
 
-    exclude = ['.git', '.vscode', 'env', 'Lib', 'site-packages']
+    exclude = ['.git', '.vscode', 'env', 'Lib', 'site-packages', 'build', 'dist']
     dir = os.getcwd() if dir is None else dir
 
     retList = []
@@ -125,41 +130,67 @@ def GenDoc(args) -> None:
         args (Namespace): arguments from ArgParser
     """
     
-    if args.f:
-        for i, file in enumerate(args.f):
-            args.f[i] = rf"{args.f[i]}"
+    if args.files:
+        for i, file in enumerate(args.files):
+            args.files[i] = rf"{args.files[i]}"
             if not file.endswith('.py') or not os.path.exists(file): 
-                del args.f[i]
+                del args.files[i]
                 i -= 1
     else:
-        args.f = getPythonFiles(args.d)
+        args.files = getPythonFiles(args.dir)
     
-    markdown = f"``{args.n}``" if args.n else ""
-    markdown += f" **{args.v}**\n" if (args.n and args.v) else markdown
+    markdown = f"``{args.name}``" if args.name else ""
+    markdown += f" **{args.version}**\n" if (args.name and args.version) else markdown
 
-    if args.o and not args.o.endswith('.md'):
-        args.o += '.md'
-    if not args.o:
-        args.o = 'DOCS.md'
+    if args.output and not args.output.endswith('.md'):
+        args.output += '.md'
+    if not args.output:
+        args.output = 'DOCS.md'
 
-    if args.e: voidDocStringMSG = args.e
-    if isinstance(args.e, str) and args.e.isnumeric():
+    if args.emptyfunc: voidDocStringMSG = args.emptyfunc
+    if isinstance(args.emptyfunc, str) and args.emptyfunc.isnumeric():
         global excludeDocless
         excludeDocless = True
 
-    for file in args.f:
-        markdown += extractDocStrings(file)
+    for file in args.files:
+        fileMarkdown = extractDocStrings(file)
+        markdown += fileMarkdown if isinstance(fileMarkdown, str) else "" 
     
-    with open(args.o, 'w') as f:
+    with open(args.output, 'w') as f:
         f.write(markdown)
 
-if __name__ == "__main__":
-    parser = argparse.ArgumentParser(description="Generate a Markdown Documentation file from a Python Repository with DocStrings.")
-    parser.add_argument("--n", type=str, help="Project Name (included in Docs)")
-    parser.add_argument("--v", type=str, help="Version Number (included in Docs) (Project Name required to use)")
-    parser.add_argument("--f", type=os.path.abspath, nargs="+", help="PATH to files you want to include in the generation")
-    parser.add_argument("--d", type=os.path.abspath, help="PATH to the parent directory of the codebase (used only without --f)")
-    parser.add_argument("--o", type=os.path.abspath, help="PATH to the output Markdown file")
-    parser.add_argument("--e", type=str, help="Message for function without a DocString (enter 0 to exclude functions without a DocString entirely)")
+def main() -> None:
+    "Creates argument parser and calls GenDoc"
+
+    parser = argparse.ArgumentParser(
+        description="Generate a Markdown Documentation file from a Python Repository with DocStrings.")
+    parser.add_argument("--name", "--n", 
+        type=str, 
+        help="Project Name (included in Docs) (not included if not provided)")
+    parser.add_argument("--version", "--v", 
+        type=str, 
+        help="Version Number (included in Docs) (Project Name required to use) (not included if not provided)")
+    parser.add_argument("--files", "--f", 
+        type=os.path.abspath, 
+        nargs="+", 
+        help="PATH to files you want to include in the generation (only pulls from these files) (defaults to all .py files in the current directory)")
+    parser.add_argument("--dir", "--d", 
+        type=os.path.abspath, 
+        help="PATH to the parent directory of the codebase (used only without --f) (defaults to all .py files in the current directory)")
+    parser.add_argument("--output", "--o", 
+        type=os.path.abspath, 
+        help="PATH to the output Markdown file (defaults to DOCS.md in current directory)")
+    parser.add_argument("--emptyfunc", "--e", 
+        type=str, 
+        help="Message for function without a DocString (enter 0 to exclude functions without a DocString entirely) (defaults to \"*No documentation provided.*\")")
+    
     args = parser.parse_args()
-    GenDoc(args)
+
+    try:
+        GenDoc(args)
+        print("Generated Successfully.")
+    except Exception as e:
+        print(f"Error Generating Docs: {e}")
+
+if __name__ == "__main__":
+    main()

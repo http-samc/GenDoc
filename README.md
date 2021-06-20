@@ -1,5 +1,5 @@
 # GenDoc
- Generate a Markdown Documentation file from a Python Repository with docstrings.
+ Generate a Markdown Documentation file from a Python Repository with DocStrings.
 
 # Installation
 ```Python
@@ -9,11 +9,17 @@ pip3 install gendoc
 ```
 
 # Use
-GenDoc is a CLI based application using ArgParse. After installation, you can use any of the following flags in your terminal:
+GenDoc is a CLI based application using ArgParse. After installation, you can call the utility in any terminal application as follows: 
+```
+C:\...\foo> gendoc
+```
+Aditionaly, you can use the following flags in your terminal:
 
-``--n`` -> Project Name (included in Docs) <br>
-``--v`` -> Version Number (included in Docs) (Project Name required to use) <br>
-``--f`` -> PATH to files you want to include in the generation<br>
-``--d`` -> PATH to the parent directory of the codebase (used only without --f) <br>
-``--o`` -> PATH to the output Markdown file <br>
-``--e`` -> Message for function without a DocString (enter 0 to exclude functions without a DocString entirely) <br>
+---
+``--help`` | ``-h`` - Show a help dialog<br>
+``--name`` | ``--n`` - Project Name (included in Docs) (not included if not provided)<br>
+``--version`` | ``--v`` - Version Number (included in Docs) (Project Name required to use) (not included if not provided)<br>
+``--files`` | ``--f`` - PATH to specific files you want to include in the generation (only pulls from these files) (defaults to all .py files in the current directory)<br>
+``--dir`` | ``--d`` - PATH to the parent directory of the codebase (used only without --f) (defaults to all .py files in the current directory)<br>
+``--output`` | ``--o`` - PATH to the output Markdown file (defaults to DOCS.md in current directory)<br>
+``--emptyfunc`` | ``--e`` - Message for function without a DocString (enter 0 to exclude functions without a DocString entirely) (defaults to "*No documentation provided.*")<br>
