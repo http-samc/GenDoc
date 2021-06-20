@@ -26,6 +26,7 @@ def extractDocStrings(filepath: str) -> str:
     """
     
     filename: str = os.path.basename(filepath)
+    functions: list = []
     retStr: str = f"## {filename}\n---\n" 
 
     # Getting file contents & initializing ast
@@ -34,12 +35,52 @@ def extractDocStrings(filepath: str) -> str:
     file = ast.parse(rawFile)
 
     # Getting all function definitions and filling in DocStrings
-    functions = [function for function in file.body 
-                if isinstance(function, (ast.FunctionDef, ast.ClassDef, ast.AsyncFunctionDef))]
+    for node in file.body:
+
+        # Adding regular & async functions
+        if isinstance(node, (ast.FunctionDef, ast.AsyncFunctionDef)):
+            functions.append(node)
+            continue
+
+        # Filtering out non-functions
+        if not isinstance(node, ast.ClassDef):
+            continue
+
+        # Explicitly handling for Classes (stores class data)
+        class_: list = []
+
+        # Adding top-level Class definition
+        class_.append(node) 
+
+        # Iterating through the class' nodes
+        for subnode in node.body:
+            # Adding only class functions
+            class_.append(subnode) if isinstance(subnode, (ast.FunctionDef, ast.AsyncFunctionDef)) else ...
         
-    for function in functions:
-        functionDocString = ast.get_docstring(function)
-        retStr += f"### {function.name}\n{functionDocString if functionDocString is not None else voidDocStringMSG}"
+        # Adding structured class list to functions list
+        functions.append(class_)
+
+    for node in functions:
+        if not isinstance(node, list):
+            functionDocString = ast.get_docstring(node)
+            retStr += f"### {node.name}\n"
+            retStr += f"{functionDocString if functionDocString is not None else voidDocStringMSG}\n"
+            continue
+            
+        # Explicitly handling for Classes
+
+        # Adding top-level name & DocString
+        className = node[0].name
+        classDocString = ast.get_docstring(node[0])
+        retStr += f"### {className}\n"
+        retStr += f"{classDocString if classDocString is not None else voidDocStringMSG}\n"
+
+        del node[0] # Removing top-level ClassDef, only iterating through class' nodes
+        for function in node:
+            functionDocString = ast.get_docstring(function)
+            retStr += f"#### ``{className}``: {function.name}\n" # adding class name in function def w/ nested emphasis
+            retStr += f"{functionDocString if functionDocString is not None else voidDocStringMSG}\n"
+
 
     return retStr
 
