@@ -106,10 +106,24 @@ def extractDocStrings(filepath: str) -> Union[str, None]:
 
         # Explicitly handling for Classes
 
-        # Adding top-level name & DocString
+        # Getting top-level name & DocString
         className = node[0].name
         classDocString = ast.get_docstring(node[0])
-        retStr += f"### {className}\n"
+
+        # Checking for superclasses
+        inherits = "[inherits: "
+        parents = []
+        for base in node[0].bases:
+            inherits += base.id + ", "
+
+        # If no superclasses were found, omit the inherits str
+        if inherits == "[inherits: ":
+            retStr += f"### {className}\n"
+
+        # If we found a superclass, trim the extra ", " and add a closing "]" -> append
+        else:
+            inherits = inherits[:-2] + "]"
+            retStr += f"### {className} {inherits}\n"
 
         if classDocString is None and not excludeDocless:
             retStr += f"{voidDocStringMSG}\n"
@@ -121,7 +135,8 @@ def extractDocStrings(filepath: str) -> Union[str, None]:
         for function in node:
             functionDocString = ast.get_docstring(function)
             if functionDocString is None and excludeDocless: continue
-            retStr += f"#### ``{className}``: {function.name.replace('_', '\_')}\n" # adding class name in function def w/ nested emphasis
+            functionName = function.name.replace('_', '\_') # preventing MD from turning __func__ to *func*
+            retStr += f"#### ``{className}``: {functionName}\n" # adding class name in function def w/ nested emphasis
             retStr += f"{functionDocString if functionDocString is not None else voidDocStringMSG}\n"
 
     return retStr
