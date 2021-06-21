@@ -111,7 +111,7 @@ def getPythonFiles(parent: str = None) -> list:
     """
     # major folders to exclude
     exclude = ['.git', '.vscode', 'env', 'Lib', 'site-packages', 'build', 'dist']
-    dir = os.getcwd() if parent is None else parent
+    parent = os.getcwd() if parent is None else parent
 
     retList = []
 
