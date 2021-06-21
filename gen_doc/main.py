@@ -9,16 +9,16 @@ excludeDocless = False
 
 def extractDocStrings(filepath: str) -> Union[str, None]:
     """Uses the `ast` module to extract DocStrings
-    from a Python file. 
+    from a Python file.
 
     Args:
         filepath (str): path to a Python file
         (*precondition: filepath is a valid .py file*)
-        
+
 
     Returns:
         str: A markdown-ready string containing the filename,
-        and function name + DocString pairs in 
+        and function name + DocString pairs in
         the following format:
 
         ## <filename>
@@ -30,10 +30,9 @@ def extractDocStrings(filepath: str) -> Union[str, None]:
         None: Used to signal the ommittance of the file from the docs,
         only returned when no functions were found
     """
-
     filename: str = os.path.basename(filepath)
     functions: list = []
-    retStr: str = f"## {filename}\n---\n" 
+    retStr: str = f"## {filename}\n---\n"
 
     # Getting file contents & initializing ast
     with open(rf"{filepath}", 'r', encoding='utf-8') as f:
@@ -57,13 +56,14 @@ def extractDocStrings(filepath: str) -> Union[str, None]:
         class_: list = []
 
         # Adding top-level Class definition
-        class_.append(node) 
+        class_.append(node)
 
         # Iterating through the class' nodes
         for subnode in node.body:
             # Adding only class functions
-            class_.append(subnode) if isinstance(subnode, (ast.FunctionDef, ast.AsyncFunctionDef)) else ...
-        
+            if isinstance(subnode, (ast.FunctionDef, ast.AsyncFunctionDef)):
+                class_.append(subnode)
+
         # Adding structured class list to functions list
         functions.append(class_)
 
@@ -77,16 +77,19 @@ def extractDocStrings(filepath: str) -> Union[str, None]:
             retStr += f"### {node.name}\n"
             retStr += f"{functionDocString if functionDocString is not None else voidDocStringMSG}\n"
             continue
-            
+
         # Explicitly handling for Classes
 
         # Adding top-level name & DocString
         className = node[0].name
         classDocString = ast.get_docstring(node[0])
         retStr += f"### {className}\n"
-        if classDocString is None and excludeDocless: ...
-        else:
-            retStr += f"{classDocString if classDocString is not None else voidDocStringMSG}\n"
+
+        if classDocString is None and not excludeDocless:
+            retStr += f"{voidDocStringMSG}\n"
+
+        elif classDocString:
+            retStr += f"{classDocString}\n"
 
         del node[0] # Removing top-level ClassDef, only iterating through class' nodes
         for function in node:
@@ -97,23 +100,22 @@ def extractDocStrings(filepath: str) -> Union[str, None]:
 
     return retStr
 
-def getPythonFiles(dir: str = None) -> list:
+def getPythonFiles(parent: str = None) -> list:
     """Gets all .py files in the current directory & filters with the standard .gitignore
 
     Args:
-        dir (str): the top-level directory to use. Defaults to None.
+        parent (str): the top-level directory to use. Defaults to None.
 
     Returns:
         list: a list of str objects representing a path to a .py file
     """
-
     # major folders to exclude
     exclude = ['.git', '.vscode', 'env', 'Lib', 'site-packages', 'build', 'dist']
-    dir = os.getcwd() if dir is None else dir
+    dir = os.getcwd() if parent is None else parent
 
     retList = []
-    
-    for root, dirs, files in os.walk(dir):
+
+    for root, dirs, files in os.walk(parent):
         dirs[:] = [d for d in dirs if d not in exclude]
         for file in files:
             if file.endswith(".py"):
@@ -129,20 +131,19 @@ def GenDoc(args) -> None:
     Args:
         args (Namespace): arguments from ArgParser
     """
-    
     # Using only user supplied files
     if args.files:
         # Validating supplied files
         for i, file in enumerate(args.files):
             args.files[i] = rf"{args.files[i]}"
-            if not file.endswith('.py') or not os.path.exists(file): 
+            if not file.endswith('.py') or not os.path.exists(file):
                 del args.files[i]
                 i -= 1
-    
+
     # Using all files in supplied directory
     else:
         args.files = getPythonFiles(args.dir)
-    
+
     # Starting markdown header
     markdown = f"``{args.name}``" if args.name else ""
     markdown += f" **{args.version}**" if (args.name and args.version) else markdown
@@ -156,6 +157,7 @@ def GenDoc(args) -> None:
         args.output = 'DOCS.md'
 
     # Adding custom missing DocString message if supplied
+    global voidDocStringMSG
     if args.emptyfunc: voidDocStringMSG = args.emptyfunc
 
     # Adding omission indicator for DocString-less functions
@@ -166,37 +168,36 @@ def GenDoc(args) -> None:
     # Adding individual file's markdowns if they contain functions
     for file in args.files:
         fileMarkdown = extractDocStrings(file)
-        markdown += fileMarkdown if isinstance(fileMarkdown, str) else "" 
-    
+        markdown += fileMarkdown if isinstance(fileMarkdown, str) else ""
+
     # Writing to output file
     with open(args.output, 'w') as f:
         f.write(markdown)
 
 def main() -> None:
     "Creates argument parser and calls GenDoc"
-
     parser = argparse.ArgumentParser(
         description="Generate a Markdown Documentation file from a Python Repository with DocStrings.")
-    parser.add_argument("--name", "--n", 
-        type=str, 
+    parser.add_argument("--name", "--n",
+        type=str,
         help="Project Name (included in Docs) (not included if not provided)")
-    parser.add_argument("--version", "--v", 
-        type=str, 
+    parser.add_argument("--version", "--v",
+        type=str,
         help="Version Number (included in Docs) (Project Name required to use) (not included if not provided)")
-    parser.add_argument("--files", "--f", 
-        type=os.path.abspath, 
-        nargs="+", 
+    parser.add_argument("--files", "--f",
+        type=os.path.abspath,
+        nargs="+",
         help="PATH to specific files you want to include in the Doc generation (only pulls from these files) (defaults to all .py files in the current directory)")
-    parser.add_argument("--dir", "--d", 
-        type=os.path.abspath, 
+    parser.add_argument("--dir", "--d",
+        type=os.path.abspath,
         help="PATH to the parent directory of the codebase (used only without --f) (defaults to all .py files in the current directory)")
-    parser.add_argument("--output", "--o", 
-        type=os.path.abspath, 
+    parser.add_argument("--output", "--o",
+        type=os.path.abspath,
         help="PATH to the output Markdown file (defaults to DOCS.md in current directory)")
-    parser.add_argument("--emptyfunc", "--e", 
-        type=str, 
+    parser.add_argument("--emptyfunc", "--e",
+        type=str,
         help="Message for function without a DocString (enter 0 to exclude functions without a DocString entirely) (defaults to \"*No documentation provided.*\")")
-    
+
     args = parser.parse_args()
 
     # Calling main() and logging exceptions
