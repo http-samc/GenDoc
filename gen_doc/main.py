@@ -199,6 +199,7 @@ def main() -> None:
     
     args = parser.parse_args()
 
+    # Calling main() and logging exceptions
     try:
         GenDoc(args)
         print("Generated Successfully.")
