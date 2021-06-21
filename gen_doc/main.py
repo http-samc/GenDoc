@@ -1,14 +1,13 @@
-import ast
 import os
-
+import ast
 import argparse
-from typing import List
+from typing import Union
 
 global voidDocStringMSG, excludeDocless
 voidDocStringMSG = "*No documentation provided.*"
 excludeDocless = False
 
-def extractDocStrings(filepath: str) -> str:
+def extractDocStrings(filepath: str) -> Union[str, None]:
     """Uses the `ast` module to extract DocStrings
     from a Python file. 
 
@@ -28,8 +27,8 @@ def extractDocStrings(filepath: str) -> str:
         <function DocString>
         ...
 
-        tuple: Contains 1 item, the markdown-ready string, if no functions were found;
-        used to signal an ommitance of this file
+        None: Used to signal the ommittance of the file from the docs,
+        only returned when no functions were found
     """
 
     filename: str = os.path.basename(filepath)
@@ -69,7 +68,7 @@ def extractDocStrings(filepath: str) -> str:
         functions.append(class_)
 
     if len(functions) == 0:
-        return tuple(retStr)
+        return None
 
     for node in functions:
         if not isinstance(node, list):
@@ -187,7 +186,7 @@ def main() -> None:
     parser.add_argument("--files", "--f", 
         type=os.path.abspath, 
         nargs="+", 
-        help="PATH to files you want to include in the generation (only pulls from these files) (defaults to all .py files in the current directory)")
+        help="PATH to specific files you want to include in the Doc generation (only pulls from these files) (defaults to all .py files in the current directory)")
     parser.add_argument("--dir", "--d", 
         type=os.path.abspath, 
         help="PATH to the parent directory of the codebase (used only without --f) (defaults to all .py files in the current directory)")
