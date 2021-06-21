@@ -108,6 +108,7 @@ def getPythonFiles(dir: str = None) -> list:
         list: a list of str objects representing a path to a .py file
     """
 
+    # major folders to exclude
     exclude = ['.git', '.vscode', 'env', 'Lib', 'site-packages', 'build', 'dist']
     dir = os.getcwd() if dir is None else dir
 
@@ -130,32 +131,45 @@ def GenDoc(args) -> None:
         args (Namespace): arguments from ArgParser
     """
     
+    # Using only user supplied files
     if args.files:
+        # Validating supplied files
         for i, file in enumerate(args.files):
             args.files[i] = rf"{args.files[i]}"
             if not file.endswith('.py') or not os.path.exists(file): 
                 del args.files[i]
                 i -= 1
+    
+    # Using all files in supplied directory
     else:
         args.files = getPythonFiles(args.dir)
     
+    # Starting markdown header
     markdown = f"``{args.name}``" if args.name else ""
-    markdown += f" **{args.version}**\n" if (args.name and args.version) else markdown
+    markdown += f" **{args.version}**" if (args.name and args.version) else markdown
 
+    # Validating output file if supplied
     if args.output and not args.output.endswith('.md'):
         args.output += '.md'
-    if not args.output:
+
+    # Creating default output file if not supplied
+    elif not args.output:
         args.output = 'DOCS.md'
 
+    # Adding custom missing DocString message if supplied
     if args.emptyfunc: voidDocStringMSG = args.emptyfunc
+
+    # Adding omission indicator for DocString-less functions
     if isinstance(args.emptyfunc, str) and args.emptyfunc.isnumeric():
         global excludeDocless
         excludeDocless = True
 
+    # Adding individual file's markdowns if they contain functions
     for file in args.files:
         fileMarkdown = extractDocStrings(file)
         markdown += fileMarkdown if isinstance(fileMarkdown, str) else "" 
     
+    # Writing to output file
     with open(args.output, 'w') as f:
         f.write(markdown)
 
