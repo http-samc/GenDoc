@@ -1,3 +1,29 @@
+"""
+ main.py 5/6/2021
+
+ MIT License
+
+ Copyright (c) 2021 http-samc
+
+ Permission is hereby granted, free of charge, to any person obtaining a copy
+ of this software and associated documentation files (the "Software"), to deal
+ in the Software without restriction, including without limitation the rights
+ to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ copies of the Software, and to permit persons to whom the Software is
+ furnished to do so, subject to the following conditions:
+
+ The above copyright notice and this permission notice shall be included in all
+ copies or substantial portions of the Software.
+
+ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ SOFTWARE.
+"""
+
 import os
 import ast
 import argparse
@@ -110,7 +136,7 @@ def getPythonFiles(parent: str = None) -> list:
         list: a list of str objects representing a path to a .py file
     """
     # major folders to exclude
-    exclude = ['.git', '.vscode', 'env', 'Lib', 'site-packages', 'build', 'dist']
+    exclude = ['.git', '.vscode', 'env', 'Lib', 'site-packages', 'build', 'dist', 'output']
     parent = os.getcwd() if parent is None else parent
 
     retList = []
@@ -137,6 +163,7 @@ def GenDoc(args) -> None:
         for i, file in enumerate(args.files):
             args.files[i] = rf"{args.files[i]}"
             if not file.endswith('.py') or not os.path.exists(file):
+                print(f"Excluding {file} because it is not a valid file.")
                 del args.files[i]
                 i -= 1
 
@@ -147,6 +174,7 @@ def GenDoc(args) -> None:
     # Starting markdown header
     markdown = f"``{args.name}``" if args.name else ""
     markdown += f" **{args.version}**" if (args.name and args.version) else markdown
+    markdown += "\n" if (args.name or args.version) else ""
 
     # Validating output file if supplied
     if args.output and not args.output.endswith('.md'):
