@@ -112,7 +112,6 @@ def extractDocStrings(filepath: str) -> Union[str, None]:
 
         # Checking for superclasses
         inherits = "[inherits: "
-        parents = []
         for base in node[0].bases:
             inherits += base.id + ", "
 
