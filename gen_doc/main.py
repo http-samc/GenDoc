@@ -121,7 +121,7 @@ def extractDocStrings(filepath: str) -> Union[str, None]:
         for function in node:
             functionDocString = ast.get_docstring(function)
             if functionDocString is None and excludeDocless: continue
-            retStr += f"#### ``{className}``: {function.name}\n" # adding class name in function def w/ nested emphasis
+            retStr += f"#### ``{className}``: {function.name.replace('_', '\_')}\n" # adding class name in function def w/ nested emphasis
             retStr += f"{functionDocString if functionDocString is not None else voidDocStringMSG}\n"
 
     return retStr
