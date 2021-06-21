@@ -1,4 +1,6 @@
 # GenDoc
+
+[![Codacy Badge](https://app.codacy.com/project/badge/Grade/fe0fd43e86524234bf0baf11e1061511)](https://www.codacy.com?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=http-samc/GenDoc&amp;utm_campaign=Badge_Grade)[![PyPI version](https://badge.fury.io/py/GenDoc.svg)](https://badge.fury.io/py/GenDoc)
  - Generate a Markdown Documentation file from a Python Repository with DocStrings.
  - Pure 🐍 implementation with no external packages
  - *Tiny* Tech Stack: os, ast, argparse, typing
