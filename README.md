@@ -15,17 +15,29 @@ pip3 install gendoc
 
 ## Use
 **GenDoc** is a CLI based application. After installation, you can call the utility in any terminal application as follows: 
-``PS C:\users\...\foo> gendoc``<br>
+`PS C:\users\...\foo> gendoc`<br>
 Additionaly, you can use the following flags in your terminal:
 
 ---
-``--help`` | ``-h`` Show a help dialog<br>
-``--name`` | ``--n`` **Project Name** (included in Docs) (not included if not provided)<br>
-``--version`` | ``--v`` **Version Number** (included in Docs) (_Project Name_ required to use) (not included if not provided)<br>
-``--files`` | ``--f`` PATH to specific files you want to include in the Doc generation (only pulls from these files) (defaults to all .py files in the current directory)<br>
-``--dir`` | ``--d`` PATH to the parent directory of the codebase (used only without --f) (defaults to all .py files in the current directory)<br>
-``--output`` | ``--o`` PATH to the output Markdown file (defaults to DOCS.md in current directory)<br>
-``--emptyfunc`` | ``--e`` Message for function without a DocString (enter **0** to exclude functions without a DocString entirely) (defaults to "*No documentation provided.*")<br>
+|Flag(s)    |Description   |
+|  ---  |  ---  |
+|`--help`, `-h`|Show a help dialog|
+|`--name`, `--n`|**Project Name** (included in Docs) (not included if not provided)|
+|`--version`, `--v`|**Version Number** (included in Docs) (_Project Name_ required to use) (not included if not provided)|
+|`--files`, `--f`|PATH to specific files you want to include in the Doc generation (only pulls from these files) (defaults to all `.py` files in the current directory)|
+|`--dir`, `--d`|PATH to the parent directory of the codebase (defaults to all `.py` files in the current directory)|
+|`--output`, `--o`|PATH to the output Markdown file (defaults to DOCS.md in current directory)|
+|`--emptyfunc`, `--e`|Message for function without a DocString (defaults to "*No documentation provided.*") (enter multiple words surrounded by "Quotes") (accepts markdown syntax)|
+
+### Notes:
+- Use either `--files` or `--dir`, never both
+  - `--dir` is used to change the directory and then scrape all files within it
+  - `--files` is used to specify specific files to scrape (not the entire directory)
+  - If you'd like to scrape specific files in a separate directory, simply use `--files` with their absolute PATHs
+- `--files` can take in multiple file parameters, simply enter a space between each one
+- Anytime a PATH is requested, it does **not** need to be in the current directory, **both** relative and absolute PATHs are accepted
+- If you'd like to exclude any functions that do **not** have their own DocString, you can use the `--emptyfunc` flag and pass in the value **`0`**
+- The current default behavior is to exclude any files that do **not** contain any functions or classes
 
 ## Future Development
 **GenDoc** was developed to be a simple, plug-and-play package. However, due to the level of styling customization required for many projects' documentation, an additional html-based API is being developed so developers can use their own external stylesheets.
