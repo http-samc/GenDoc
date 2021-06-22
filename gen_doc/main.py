@@ -111,7 +111,7 @@ def extractDocStrings(filepath: str, parent: str = None, classSections: bool = F
         if not isinstance(node, list):
             functionDocString = ast.get_docstring(node)
             if functionDocString is None and excludeDocless: continue
-            retStr += f"### *Function* {relPathFormatted}.`{node.name}`\n"
+            retStr += f"### {relPathFormatted}.`{node.name}` [function]\n"
 
             if funcSections and functionDocString: retStr += "<details style='color: #333333'><summary>Details</summary>\n\n" # Opening Function section
             retStr += f"{functionDocString if functionDocString is not None else voidDocStringMSG}\n"
@@ -125,18 +125,18 @@ def extractDocStrings(filepath: str, parent: str = None, classSections: bool = F
         classDocString = ast.get_docstring(node[0])
 
         # Checking for superclasses
-        inherits = "[inherits: "
+        inherits = "inherits: "
         for base in node[0].bases:
             inherits += f"`{base.id}`, "
 
         # If no superclasses were found, omit the inherits str
         if inherits == "[inherits: ":
-            retStr += f"### *Class* {relPathFormatted}.`{className}`\n"
+            retStr += f"### {relPathFormatted}.`{className}` [class]\n"
 
         # If we found a superclass, trim the extra ", " and add a closing "]" -> append
         else:
-            inherits = inherits[:-2] + "]"
-            retStr += f"### *Class* {relPathFormatted}.`{className}` {inherits}\n"
+            inherits = inherits[:-2]
+            retStr += f"### {relPathFormatted}.`{className}` [class] [{inherits}]\n"
 
         if classDocString is None and not excludeDocless:
             retStr += f"{voidDocStringMSG}\n"
