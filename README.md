@@ -1,17 +1,16 @@
 # GenDoc
 
-[![Codacy Badge](https://app.codacy.com/project/badge/Grade/fe0fd43e86524234bf0baf11e1061511)](https://www.codacy.com?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=http-samc/GenDoc&amp;utm_campaign=Badge_Grade)[![PyPI version](https://badge.fury.io/py/GenDoc.svg)](https://badge.fury.io/py/GenDoc)
+[![Codacy Badge](https://app.codacy.com/project/badge/Grade/fe0fd43e86524234bf0baf11e1061511)](https://www.codacy.com?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=http-samc/GenDoc&amp;utm_campaign=Badge_Grade) [![PyPI version](https://badge.fury.io/py/GenDoc.svg)](https://badge.fury.io/py/GenDoc) [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT) ![platform: independent](https://img.shields.io/endpoint?url=https%3A%2F%2Fapi.jsonbin.io%2Fb%2F6042e0a7121bf907dd96fa4a%2F13)
 
  - Generate a Markdown Documentation file from a Python Repository with DocStrings.
  - Pure 🐍 implementation with no external packages
  - *Tiny* Tech Stack: os, ast, argparse, typing
 
 ## Installation
-```Python
-pip install gendoc
---
-pip3 install gendoc
-```
+Use **pip** in your terminal to install GenDoc. The commands are listed below:
+|Windows|Linux|MacOS|
+|---|---|---|
+|`pip install gendoc`|`pip3 install gendoc`|`pip3 install gendoc`|
 
 ## Use
 **GenDoc** is a CLI based application. After installation, you can call the utility in any terminal application as follows:
