@@ -114,7 +114,7 @@ def extractDocStrings(filepath: str, parent: str = None, classSections: bool = F
 
         if not isinstance(node, list):
             functionDocString = ast.get_docstring(node)
-            if fence: functionDocString = f"```Python\n{functionDocString}\n```"
+            if fence and functionDocString: functionDocString = f"```Python\n{functionDocString}\n```"
 
             if functionDocString is None and excludeDocless: continue
             retStr += f"### {relPathFormatted}.`{node.name}` [function]\n"
@@ -155,7 +155,8 @@ def extractDocStrings(filepath: str, parent: str = None, classSections: bool = F
         del node[0] # Removing top-level ClassDef, only iterating through class' nodes
         for function in node:
             functionDocString = ast.get_docstring(function)
-            if fence: functionDocString = f"```Python\n{functionDocString}\n```"
+            if fence and functionDocString: functionDocString = f"```Python\n{functionDocString}\n```"
+
 
             if functionDocString is None and excludeDocless: continue
             functionName = function.name.replace('_', '\_') # preventing MD from turning __func__ to *func*
