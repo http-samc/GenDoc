@@ -130,7 +130,7 @@ def extractDocStrings(filepath: str, parent: str = None, classSections: bool = F
             inherits += f"`{base.id}`, "
 
         # If no superclasses were found, omit the inherits str
-        if inherits == "[inherits: ":
+        if inherits == "inherits: ":
             retStr += f"### {relPathFormatted}.`{className}` [class]\n"
 
         # If we found a superclass, trim the extra ", " and add a closing "]" -> append

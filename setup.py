@@ -34,7 +34,7 @@ with open(path.join(this_directory, 'README.md'), encoding='utf-8') as f:
 
 setup(
     name="GenDoc",
-    version="0.1.0",
+    version="0.1.2",
     description="Generate a Markdown Documentation file from a Python Repository with DocStrings.",
     url="https://github.com/http-samc/GenDoc",
     author="Samarth Chitgopekar",
