@@ -28,7 +28,7 @@ pip3 install gendoc
 |`--help`, `-h`|`{None}`|Show a help dialog|
 |`--name`, `--n`|`{str}`|**Project Name** (included in Docs) (not included if not provided)|
 |`--version`, `--v`|`{str}`|**Version Number** (included in Docs) (_Project Name_ required to use) (not included if not provided)|
-|`--files`, `--f`|`{str} {str (opt)} ...`|PATH to specific files you want to include in the Doc generation (only pulls from these files) (defaults to all `.py` files in the current directory)|
+|`--files`, `--f`|`{str} {str (opt)} ...`|PATH to specific files you want to include in the Doc generation (separate by a single space if adding multiple files) (only pulls from these files) (defaults to all `.py` files in the current directory)|
 |`--dir`, `--d`|`{str}`|PATH to the parent directory of the codebase (defaults to all `.py` files in the current directory)|
 |`--output`, `--o`|`{str}`|PATH to the output Markdown file (defaults to DOCS.md in current directory)|
 |`--emptyfunc`, `--e`|`"{str}"`|Message for function without a DocString (enter multiple words surrounded by "Quotes") (accepts markdown syntax) (defaults to "*No documentation provided.*")|
@@ -42,7 +42,6 @@ pip3 install gendoc
   - `--dir` is used to change the directory and then scrape all files within it
   - `--files` is used to specify specific files to scrape (not the entire directory)
   - If you'd like to scrape specific files in a separate directory, simply use `--files` with their absolute PATHs
-- `--files` can take in multiple file parameters, simply enter a space between each one
 - Anytime a PATH is requested, it does **not** need to be in the current directory, **both** relative and absolute PATHs are accepted
 - If you'd like to exclude any functions that do **not** have their own DocString, you can use the `--emptyfunc` flag and pass in the value **`0`**
 - The current default behavior is to exclude any files that do **not** contain any functions or classes
