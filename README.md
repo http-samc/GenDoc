@@ -45,7 +45,7 @@ pip3 install gendoc
 - Anytime a PATH is requested, it does **not** need to be in the current directory, **both** relative and absolute PATHs are accepted
 - If you'd like to exclude any functions that do **not** have their own DocString, you can use the `--emptyfunc` flag and pass in the value **`0`**
 - The current default behavior is to exclude any files that do **not** contain any functions or classes
-- Clickable links generated with `--fileHeaders` might break if you are using a different directory or placing `DOCS.md` in a nested directory
+- Clickable links generated with `--fileHeaders` might break if you are using a different directory with the `--dir` flag or placing `DOCS.md` in a different directory with the `--output` flag
 - If you aren't using markdown-styled DocStrings, passing the `--codeFence` flag will help auto-emphasize Python keywords, such as str, int, class, etc.
 
 ## Future Development
