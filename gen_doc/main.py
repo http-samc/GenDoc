@@ -24,24 +24,32 @@
  SOFTWARE.
 """
 
-import os
-import ast
 import argparse
+import ast
+import os
 from typing import Union
 
 global voidDocStringMSG, excludeDocless
 voidDocStringMSG = "*No documentation provided.*"
 excludeDocless = False
 
-def extractDocStrings(filepath: str) -> Union[str, None]:
-    """Uses the `ast` module to extract DocStrings
+def extractDocStrings(filepath: str, parent: str = None, classSections: bool = False,
+        methodSections: bool = False, funcSections: bool = False, fileHeaders: bool = False) -> Union[str, None]:
+    """Uses the ast module to extract DocStrings
     from a Python file.
 
     Args:
-        filepath (str): path to a Python file
-        (*precondition: filepath is a valid .py file*)
+        filepath (str): path to a Python file (*precondition: filepath is a valid .py file*)
 
+        parent (str): the top-level directory to use. Defaults to None.
 
+        classSections (bool): create collapsible sections for classes. Defaults to False.
+
+        methodSections (bool): create collapsible sections for class methods. Defaults to False.
+
+        funcSections (bool): create collapsible sections for functions. Defaults to False.
+
+        fileHeaders (bool): add filename and relative path before it's classes and functions. Defaults to False.
     Returns:
         str: A markdown-ready string containing the filename,
         and function name + DocString pairs in
@@ -56,9 +64,10 @@ def extractDocStrings(filepath: str) -> Union[str, None]:
         None: Used to signal the ommittance of the file from the docs,
         only returned when no functions were found
     """
-    filename: str = os.path.basename(filepath)
+    relPath = os.path.relpath(filepath, start = parent).replace('.py', '')
+    relPathFormatted = relPath.replace('\\', '.')
     functions: list = []
-    retStr: str = f"## {filename}\n---\n"
+    retStr: str = f"## [{relPathFormatted}.py]({relPath})\n---\n" if fileHeaders else ""
 
     # Getting file contents & initializing ast
     with open(rf"{filepath}", 'r', encoding='utf-8') as f:
@@ -97,11 +106,15 @@ def extractDocStrings(filepath: str) -> Union[str, None]:
         return None
 
     for node in functions:
+
         if not isinstance(node, list):
             functionDocString = ast.get_docstring(node)
             if functionDocString is None and excludeDocless: continue
-            retStr += f"### {node.name}\n"
+            retStr += f"### *Function* {relPathFormatted}.`{node.name}`\n"
+
+            if funcSections and functionDocString: retStr += "<details style='color: #333333'><summary>Details</summary>\n\n" # Opening Function section
             retStr += f"{functionDocString if functionDocString is not None else voidDocStringMSG}\n"
+            if funcSections and functionDocString: retStr += "</details>" # Closing Function section
             continue
 
         # Explicitly handling for Classes
@@ -113,16 +126,16 @@ def extractDocStrings(filepath: str) -> Union[str, None]:
         # Checking for superclasses
         inherits = "[inherits: "
         for base in node[0].bases:
-            inherits += base.id + ", "
+            inherits += f"`{base.id}`, "
 
         # If no superclasses were found, omit the inherits str
         if inherits == "[inherits: ":
-            retStr += f"### {className}\n"
+            retStr += f"### *Class* {relPathFormatted}.`{className}`\n"
 
         # If we found a superclass, trim the extra ", " and add a closing "]" -> append
         else:
             inherits = inherits[:-2] + "]"
-            retStr += f"### {className} {inherits}\n"
+            retStr += f"### *Class* {relPathFormatted}.`{className}` {inherits}\n"
 
         if classDocString is None and not excludeDocless:
             retStr += f"{voidDocStringMSG}\n"
@@ -130,13 +143,21 @@ def extractDocStrings(filepath: str) -> Union[str, None]:
         elif classDocString:
             retStr += f"{classDocString}\n"
 
+        if classSections: retStr += "<details style='color: #333333'><summary>Methods</summary><p>\n\n" # Opening Class section
+
         del node[0] # Removing top-level ClassDef, only iterating through class' nodes
         for function in node:
             functionDocString = ast.get_docstring(function)
+
             if functionDocString is None and excludeDocless: continue
             functionName = function.name.replace('_', '\_') # preventing MD from turning __func__ to *func*
-            retStr += f"#### ``{className}``: {functionName}\n" # adding class name in function def w/ nested emphasis
+            retStr += f"#### `{className}`.{functionName}\n" # adding class name in function def w/ nested emphasis
+
+            if methodSections and functionDocString: retStr += "<details style='color: #333333'><summary>Details</summary><p>\n\n" # Opening Class Method section
             retStr += f"{functionDocString if functionDocString is not None else voidDocStringMSG}\n"
+            if methodSections and functionDocString: retStr += "</p></details>\n\n" # Closing Class Method section
+
+        if classSections: retStr += "</p></details>\n\n" # Closing Class section
 
     return retStr
 
@@ -186,7 +207,7 @@ def GenDoc(args) -> None:
         args.files = getPythonFiles(args.dir)
 
     # Starting markdown header
-    markdown = f"``{args.name}``" if args.name else ""
+    markdown = f"`{args.name}`" if args.name else ""
     markdown += f" **{args.version}**" if (args.name and args.version) else markdown
     markdown += "\n" if (args.name or args.version) else ""
 
@@ -209,7 +230,8 @@ def GenDoc(args) -> None:
 
     # Adding individual file's markdowns if they contain functions
     for file in args.files:
-        fileMarkdown = extractDocStrings(file)
+        fileMarkdown = extractDocStrings(file, parent = args.dir, classSections = args.classSections,
+            methodSections = args.methodSections, funcSections = args.funcSections, fileHeaders = args.fileHeaders)
         markdown += fileMarkdown if isinstance(fileMarkdown, str) else ""
 
     # Writing to output file
@@ -239,7 +261,22 @@ def main() -> None:
     parser.add_argument("--emptyfunc", "--e",
         type=str,
         help="Message for function without a DocString (enter 0 to exclude functions without a DocString entirely) (defaults to \"*No documentation provided.*\")")
-
+    parser.add_argument("--classSections", "--cs",
+        action="store_true",
+        default=False,
+        help="Add collapseable sections for classes")
+    parser.add_argument("--methodSections", "--ms",
+        action="store_true",
+        default=False,
+        help="Add collapseable sections for class methods")
+    parser.add_argument("--funcSections", "--fs",
+        action="store_true",
+        default=False,
+        help="Add collapseable sections for functions")
+    parser.add_argument("--fileHeaders", "--fh",
+        action="store_true",
+        default=False,
+        help="Add file name & relative path above it's classes and functions")
     args = parser.parse_args()
 
     # Calling main() and logging exceptions

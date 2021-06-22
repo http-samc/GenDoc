@@ -14,7 +14,7 @@ pip3 install gendoc
 ```
 
 ## Use
-**GenDoc** is a CLI based application. After installation, you can call the utility in any terminal application as follows: 
+**GenDoc** is a CLI based application. After installation, you can call the utility in any terminal application as follows:
 `PS C:\users\...\foo> gendoc`<br>
 Additionaly, you can use the following flags in your terminal:
 
