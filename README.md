@@ -1,10 +1,11 @@
 # GenDoc
 
-[![Codacy Badge](https://app.codacy.com/project/badge/Grade/fe0fd43e86524234bf0baf11e1061511)](https://www.codacy.com?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=http-samc/GenDoc&amp;utm_campaign=Badge_Grade) [![PyPI version](https://badge.fury.io/py/GenDoc.svg)](https://badge.fury.io/py/GenDoc) [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT) ![platform: independent](https://img.shields.io/endpoint?url=https%3A%2F%2Fapi.jsonbin.io%2Fb%2F6042e0a7121bf907dd96fa4a%2F13)
+[![Codacy Badge](https://app.codacy.com/project/badge/Grade/fe0fd43e86524234bf0baf11e1061511)](https://www.codacy.com?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=http-samc/GenDoc&amp;utm_campaign=Badge_Grade) [![PyPI version](https://badge.fury.io/py/GenDoc.svg)](https://badge.fury.io/py/GenDoc) [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT) ![platform: independent](https://img.shields.io/endpoint?url=https%3A%2F%2Fapi.jsonbin.io%2Fb%2F6042e0a7121bf907dd96fa4a%2F13) ![Custom badge](https://img.shields.io/endpoint?url=https%3A%2F%2Fapi.jsonbin.io%2Fb%2F6042e0a7121bf907dd96fa4a%2F14)
 
  - Generate a Markdown Documentation file from a Python Repository with DocStrings.
+ - See an output example [here](/DOCS.md)
  - Pure 🐍 implementation with no external packages
- - *Tiny* Tech Stack: os, ast, argparse, typing
+ - *Tiny* Tech Stack: **os**, **ast**, **argparse**
 
 ## Installation
 Use **pip** in your terminal to install GenDoc. The commands are listed below:
@@ -53,23 +54,4 @@ Use **pip** in your terminal to install GenDoc. The commands are listed below:
 PRs are welcome, and please contact [Samarth Chitgopekar](mailto:sam@chitgopekar.tech) for any questions, comments, or concerns.
 
 ---
-<body>
-  <p style="background-color: #E3E3E3; border: 8px solid #E3E3E3; border-radius: 5px; line-height:200%;">
-    <a style="border: 4px solid #121212; background-color: #121212; color: #d8e5e6; border-radius: 5px;">Python</a>
-    <a style="border: 4px solid #121212; background-color: #121212; color: #d8e5e6; border-radius: 5px;">DocStrings</a>
-    <a style="border: 4px solid #121212; background-color: #121212; color: #d8e5e6; border-radius: 5px;">Generate DocStrings</a>
-    <a style="border: 4px solid #121212; background-color: #121212; color: #d8e5e6; border-radius: 5px;">Python Markdown DocStrings</a>
-    <a style="border: 4px solid #121212; background-color: #121212; color: #d8e5e6; border-radius: 5px;">DocStrings to Markdown</a>
-    <a style="border: 4px solid #121212; background-color: #121212; color: #d8e5e6; border-radius: 5px;">Documentation Generator</a>
-    <a style="border: 4px solid #121212; background-color: #121212; color: #d8e5e6; border-radius: 5px;">DocStrings Markdown</a>
-    <a style="border: 4px solid #121212; background-color: #121212; color: #d8e5e6; border-radius: 5px;">Elegant Docs</a>
-    <a style="border: 4px solid #121212; background-color: #121212; color: #d8e5e6; border-radius: 5px;">Module Doc Generator</a>
-    <a style="border: 4px solid #121212; background-color: #121212; color: #d8e5e6; border-radius: 5px;">Pure Python</a>
-    <a style="border: 4px solid #121212; background-color: #121212; color: #d8e5e6; border-radius: 5px;">DocString Scraper</a>
-    <a style="border: 4px solid #121212; background-color: #121212; color: #d8e5e6; border-radius: 5px;">Python Doc Generator</a>
-    <a style="border: 4px solid #121212; background-color: #121212; color: #d8e5e6; border-radius: 5px;">PyPI DocString Generator</a>
-    <a style="border: 4px solid #121212; background-color: #121212; color: #d8e5e6; border-radius: 5px;">Markdown Docs</a>
-    <a style="border: 4px solid #121212; background-color: #121212; color: #d8e5e6; border-radius: 5px;">Easy API Documentation Generator</a>
-    <a style="border: 4px solid #121212; background-color: #121212; color: #d8e5e6; border-radius: 5px;">Package Doc Generator</a>
-  </p>
-</body>
+**`Python DocStrings` `Generate DocStrings` `Python Markdown DocStrings` `DocStrings to Markdown` `Documentation Generator` `DocStrings` `Markdown Elegant Docs` `Module Doc Generator` `Pure Python` `DocString Scraper` `Python Doc Generator` `PyPI DocString Generator` `Markdown Docs` `API Documentation Generator` `Package Doc Generator`**
