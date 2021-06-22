@@ -1,6 +1,6 @@
-## [gen_doc.main.py](/gen_doc\main.py)
+## [gen_doc/main.py](/gen_doc/main.py)
 ---
-### *Function* gen_doc.main.`extractDocStrings`
+### *Function* gen_doc/main.`extractDocStrings`
 <details style='color: #333333'><summary>Details</summary>
 
 Uses the ast module to extract DocStrings
@@ -31,7 +31,7 @@ Returns:
 
     None: Used to signal the ommittance of the file from the docs,
     only returned when no functions were found
-</details>### *Function* gen_doc.main.`getPythonFiles`
+</details>### *Function* gen_doc/main.`getPythonFiles`
 <details style='color: #333333'><summary>Details</summary>
 
 Gets all .py files in the current directory & filters with the standard .gitignore
@@ -41,7 +41,7 @@ Args:
 
 Returns:
     list: a list of str objects representing a path to a .py file
-</details>### *Function* gen_doc.main.`GenDoc`
+</details>### *Function* gen_doc/main.`GenDoc`
 <details style='color: #333333'><summary>Details</summary>
 
 Converts parsed arguments into logic for targeting Python
@@ -50,7 +50,7 @@ output file.
 
 Args:
     args (Namespace): arguments from ArgParser
-</details>### *Function* gen_doc.main.`main`
+</details>### *Function* gen_doc/main.`main`
 <details style='color: #333333'><summary>Details</summary>
 
 Creates argument parser and calls GenDoc

@@ -64,7 +64,7 @@ def extractDocStrings(filepath: str, parent: str = None, classSections: bool = F
         None: Used to signal the ommittance of the file from the docs,
         only returned when no functions were found
     """
-    relPath = os.path.relpath(filepath, start = parent) # literal relative path
+    relPath = os.path.relpath(filepath, start = parent).replace('\\', '/') # literal relative path
     relPathFormatted = relPath.replace('\\', '.').replace('.py', '') # pythonic implementation for path
 
     functions: list = []
