@@ -32,6 +32,7 @@ Additionaly, you can use the following flags in your terminal:
 |`--methodSections`, `--ms`|Add collapseable sections for class methods (not generated if not called)|
 |`--funcSections`, `--fs`|Add collapseable sections for functions (not generated if not called)|
 |`--fileHeaders`, `--fh`|Add file name & relative path above it's classes and functions (creates GitHub-safe clickable link) (not generated if not called)|
+|`--codeFence`, `--cf`| Surround all DocStrings in a Python markdown code fence (not generated if not called)|
 ### Notes:
 - Use either `--files` or `--dir`, never both
   - `--dir` is used to change the directory and then scrape all files within it
@@ -42,6 +43,7 @@ Additionaly, you can use the following flags in your terminal:
 - If you'd like to exclude any functions that do **not** have their own DocString, you can use the `--emptyfunc` flag and pass in the value **`0`**
 - The current default behavior is to exclude any files that do **not** contain any functions or classes
 - Clickable links generated with `--fileHeaders` might break if you are using a different directory or placing `DOCS.md` in a nested directory
+- If you aren't using markdown-styled DocStrings, passing the `--codeFence` flag will help auto-emphasize Python keywords, such as str, int, class, etc.
 
 ## Future Development
 **GenDoc** was developed to be a simple, plug-and-play package. However, due to the level of styling customization required for many projects' documentation, an additional html-based API is being developed so developers can use their own external stylesheets.

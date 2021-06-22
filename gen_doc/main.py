@@ -34,7 +34,8 @@ voidDocStringMSG = "*No documentation provided.*"
 excludeDocless = False
 
 def extractDocStrings(filepath: str, parent: str = None, classSections: bool = False,
-        methodSections: bool = False, funcSections: bool = False, fileHeaders: bool = False) -> Union[str, None]:
+        methodSections: bool = False, funcSections: bool = False, fileHeaders: bool = False,
+        fence: bool = False) -> Union[str, None]:
     """Uses the ast module to extract DocStrings
     from a Python file.
 
@@ -50,6 +51,9 @@ def extractDocStrings(filepath: str, parent: str = None, classSections: bool = F
         funcSections (bool): create collapsible sections for functions. Defaults to False.
 
         fileHeaders (bool): add filename and relative path before it's classes and functions. Defaults to False.
+
+        fence (bool): surround each DocString in a markdown code fence with Python formatting. Defaults to False.
+
     Returns:
         str: A markdown-ready string containing the filename,
         and function name + DocString pairs in
@@ -110,6 +114,8 @@ def extractDocStrings(filepath: str, parent: str = None, classSections: bool = F
 
         if not isinstance(node, list):
             functionDocString = ast.get_docstring(node)
+            if fence: functionDocString = f"```Python\n{functionDocString}\n```"
+
             if functionDocString is None and excludeDocless: continue
             retStr += f"### {relPathFormatted}.`{node.name}` [function]\n"
 
@@ -149,6 +155,7 @@ def extractDocStrings(filepath: str, parent: str = None, classSections: bool = F
         del node[0] # Removing top-level ClassDef, only iterating through class' nodes
         for function in node:
             functionDocString = ast.get_docstring(function)
+            if fence: functionDocString = f"```Python\n{functionDocString}\n```"
 
             if functionDocString is None and excludeDocless: continue
             functionName = function.name.replace('_', '\_') # preventing MD from turning __func__ to *func*
@@ -232,7 +239,8 @@ def GenDoc(args) -> None:
     # Adding individual file's markdowns if they contain functions
     for file in args.files:
         fileMarkdown = extractDocStrings(file, parent = args.dir, classSections = args.classSections,
-            methodSections = args.methodSections, funcSections = args.funcSections, fileHeaders = args.fileHeaders)
+            methodSections = args.methodSections, funcSections = args.funcSections,
+             fileHeaders = args.fileHeaders, fence = args.codeFence)
         markdown += fileMarkdown if isinstance(fileMarkdown, str) else ""
 
     # Writing to output file
@@ -265,19 +273,23 @@ def main() -> None:
     parser.add_argument("--classSections", "--cs",
         action="store_true",
         default=False,
-        help="Add collapseable sections for classes")
+        help="Add collapseable sections for classes (not generated if not called)")
     parser.add_argument("--methodSections", "--ms",
         action="store_true",
         default=False,
-        help="Add collapseable sections for class methods")
+        help="Add collapseable sections for class methods (not generated if not called)")
     parser.add_argument("--funcSections", "--fs",
         action="store_true",
         default=False,
-        help="Add collapseable sections for functions")
+        help="Add collapseable sections for functions (not generated if not called)")
     parser.add_argument("--fileHeaders", "--fh",
         action="store_true",
         default=False,
-        help="Add file name & relative path above it's classes and functions")
+        help="Add file name & relative path above it's classes and functions (not generated if not called)")
+    parser.add_argument("--codeFence", "--cf",
+        action="store_true",
+        default=False,
+        help="Surround all DocStrings in a Python markdown code fence (not generated if not called)")
     args = parser.parse_args()
 
     # Calling main() and logging exceptions
