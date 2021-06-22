@@ -12,7 +12,7 @@ Use **pip** in your terminal to install GenDoc. The commands are listed below:
 |Windows|Linux|MacOS|
 |---|---|---|
 |`pip install gendoc`|`pip3 install gendoc`|`pip3 install gendoc`|
-
+<img src="/GenDoc_Install.gif">
 ## Use
 **GenDoc** is a CLI based application. After installation, you can call the utility in any terminal application as follows:
 |Windows|Linux|MacOS|
