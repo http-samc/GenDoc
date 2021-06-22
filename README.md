@@ -31,7 +31,7 @@ Use **pip** in your terminal to install GenDoc. The commands are listed below:
 |`--files`, `--f`|`{str} {str (opt)} ...`|PATH to specific files you want to include in the Doc generation (separate by a single space if adding multiple files) (only pulls from these files) (defaults to all `.py` files in the current directory)|
 |`--dir`, `--d`|`{str}`|PATH to the parent directory of the codebase (defaults to all `.py` files in the current directory)|
 |`--output`, `--o`|`{str}`|PATH to the output Markdown file (defaults to DOCS.md in current directory)|
-|`--emptyfunc`, `--e`|`"{str}"`|Message for function without a DocString (enter multiple words surrounded by "Quotes") (accepts markdown syntax) (defaults to "*No documentation provided.*")|
+|`--emptyFunc`, `--e`|`"{str}"`|Message for function without a DocString (enter multiple words surrounded by "Quotes") (accepts markdown syntax) (defaults to "*No documentation provided.*")|
 |`--classSections`, `--cs`|`{None}`|Add collapseable sections for classes (not generated if not called)|
 |`--methodSections`, `--ms`|`{None}`|Add collapseable sections for class methods (not generated if not called)|
 |`--funcSections`, `--fs`|`{None}`|Add collapseable sections for functions (not generated if not called)|

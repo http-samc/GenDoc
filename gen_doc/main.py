@@ -29,13 +29,10 @@ import ast
 import os
 from typing import Union
 
-global voidDocStringMSG, excludeDocless
-voidDocStringMSG = "*No description provided.*"
-excludeDocless = False
-
 def extractDocStrings(filepath: str, parent: str = None, classSections: bool = False,
         methodSections: bool = False, funcSections: bool = False, fileHeaders: bool = False,
-        fence: bool = False) -> Union[str, None]:
+        fence: bool = False, voidDocStringMSG: bool = "*No description provided*",
+        excludeDocless: bool = False) -> Union[str, None]:
     """Uses the ast module to extract DocStrings
     from a Python file.
 
@@ -53,6 +50,10 @@ def extractDocStrings(filepath: str, parent: str = None, classSections: bool = F
         fileHeaders (bool): add filename and relative path before it's classes and functions. Defaults to False.
 
         fence (bool): surround each DocString in a markdown code fence with Python formatting. Defaults to False.
+
+        voidDocStringMSG (bool): the function DocString if it does not have one. Defaults to "*No description provided.*".
+
+        excludeDocless (bool): whether or not to exclude functions that do not have a DocString. Defaults to False.
 
     Returns:
         str: A markdown-ready string containing the filename,
@@ -227,20 +228,15 @@ def GenDoc(args) -> None:
     elif not args.output:
         args.output = 'DOCS.md'
 
-    # Adding custom missing DocString message if supplied
-    global voidDocStringMSG
-    if args.emptyfunc: voidDocStringMSG = args.emptyfunc
-
     # Adding omission indicator for DocString-less functions
-    if isinstance(args.emptyfunc, str) and args.emptyfunc.isnumeric():
-        global excludeDocless
-        excludeDocless = True
+    excludeDocless = True if isinstance(args.emptyFunc, str) and args.emptyFunc.isnumeric() else False
 
     # Adding individual file's markdowns if they contain functions
     for file in args.files:
         fileMarkdown = extractDocStrings(file, parent = args.dir, classSections = args.classSections,
             methodSections = args.methodSections, funcSections = args.funcSections,
-             fileHeaders = args.fileHeaders, fence = args.codeFence)
+            fileHeaders = args.fileHeaders, fence = args.codeFence,
+            voidDocStringMSG = args.emptyFunc, excludeDocless = excludeDocless)
         markdown += fileMarkdown if isinstance(fileMarkdown, str) else ""
 
     # Writing to output file
@@ -267,7 +263,7 @@ def main() -> None:
     parser.add_argument("--output", "--o",
         type=os.path.abspath,
         help="PATH to the output Markdown file (defaults to DOCS.md in current directory)")
-    parser.add_argument("--emptyfunc", "--e",
+    parser.add_argument("--emptyFunc", "--e",
         type=str,
         help="Message for function without a DocString (enter 0 to exclude functions without a DocString entirely) (defaults to \"*No documentation provided.*\")")
     parser.add_argument("--classSections", "--cs",
