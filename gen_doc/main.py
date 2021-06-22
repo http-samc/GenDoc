@@ -30,7 +30,7 @@ import os
 from typing import Union
 
 global voidDocStringMSG, excludeDocless
-voidDocStringMSG = "*No documentation provided.*"
+voidDocStringMSG = "*No description provided.*"
 excludeDocless = False
 
 def extractDocStrings(filepath: str, parent: str = None, classSections: bool = False,

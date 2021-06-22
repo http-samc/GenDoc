@@ -15,24 +15,28 @@ pip3 install gendoc
 
 ## Use
 **GenDoc** is a CLI based application. After installation, you can call the utility in any terminal application as follows:
-`PS C:\users\...\foo> gendoc`<br>
-Additionaly, you can use the following flags in your terminal:
+|Windows|Linux|MacOS|
+|---|---|---|
+`C:\> gendoc`|`user@ubuntu:~$ gendoc`|`mac:~ user$ gendoc`|
+- In all of these cases, you should be using **`cd`** to set your terminal directory to your project folder - otherwise you'll have to use the `--files` or `--dir` commands to specify your Python programs in order to avoid generating documentation for every single `.py` file on your computer!
+
+##### You can also use any of the following flags in your terminal to customize your output (optional):
 
 ---
-|Flag(s)    |Description   |
-|  ---  |  ---  |
-|`--help`, `-h`|Show a help dialog|
-|`--name`, `--n`|**Project Name** (included in Docs) (not included if not provided)|
-|`--version`, `--v`|**Version Number** (included in Docs) (_Project Name_ required to use) (not included if not provided)|
-|`--files`, `--f`|PATH to specific files you want to include in the Doc generation (only pulls from these files) (defaults to all `.py` files in the current directory)|
-|`--dir`, `--d`|PATH to the parent directory of the codebase (defaults to all `.py` files in the current directory)|
-|`--output`, `--o`|PATH to the output Markdown file (defaults to DOCS.md in current directory)|
-|`--emptyfunc`, `--e`|Message for function without a DocString (enter multiple words surrounded by "Quotes") (accepts markdown syntax) (defaults to "*No documentation provided.*")|
-|`--classSections`, `--cs`|Add collapseable sections for classes (not generated if not called)|
-|`--methodSections`, `--ms`|Add collapseable sections for class methods (not generated if not called)|
-|`--funcSections`, `--fs`|Add collapseable sections for functions (not generated if not called)|
-|`--fileHeaders`, `--fh`|Add file name & relative path above it's classes and functions (creates GitHub-safe clickable link) (not generated if not called)|
-|`--codeFence`, `--cf`| Surround all DocStrings in a Python markdown code fence (not generated if not called)|
+|Flag(s)|Value|Description|
+|  ---  |  ---  | --- |
+|`--help`, `-h`|`{None}`|Show a help dialog|
+|`--name`, `--n`|`{str}`|**Project Name** (included in Docs) (not included if not provided)|
+|`--version`, `--v`|`{str}`|**Version Number** (included in Docs) (_Project Name_ required to use) (not included if not provided)|
+|`--files`, `--f`|`{str} {str (opt)} ...`|PATH to specific files you want to include in the Doc generation (only pulls from these files) (defaults to all `.py` files in the current directory)|
+|`--dir`, `--d`|`{str}`|PATH to the parent directory of the codebase (defaults to all `.py` files in the current directory)|
+|`--output`, `--o`|`{str}`|PATH to the output Markdown file (defaults to DOCS.md in current directory)|
+|`--emptyfunc`, `--e`|`"{str}"`|Message for function without a DocString (enter multiple words surrounded by "Quotes") (accepts markdown syntax) (defaults to "*No documentation provided.*")|
+|`--classSections`, `--cs`|`{None}`|Add collapseable sections for classes (not generated if not called)|
+|`--methodSections`, `--ms`|`{None}`|Add collapseable sections for class methods (not generated if not called)|
+|`--funcSections`, `--fs`|`{None}`|Add collapseable sections for functions (not generated if not called)|
+|`--fileHeaders`, `--fh`|`{None}`|Add file name & relative path above it's classes and functions (creates GitHub-safe clickable link) (not generated if not called)|
+|`--codeFence`, `--cf`|`{None}`|Surround all DocStrings in a Python markdown code fence (not generated if not called)|
 ### Notes:
 - Use either `--files` or `--dir`, never both
   - `--dir` is used to change the directory and then scrape all files within it
@@ -49,3 +53,25 @@ Additionaly, you can use the following flags in your terminal:
 **GenDoc** was developed to be a simple, plug-and-play package. However, due to the level of styling customization required for many projects' documentation, an additional html-based API is being developed so developers can use their own external stylesheets.
 
 PRs are welcome, and please contact [Samarth Chitgopekar](mailto:sam@chitgopekar.tech) for any questions, comments, or concerns.
+
+---
+<body>
+  <p style="background-color: #E3E3E3; border: 8px solid #E3E3E3; border-radius: 5px; line-height:200%;">
+    <a style="border: 4px solid #121212; background-color: #121212; color: #d8e5e6; border-radius: 5px;">Python</a>
+    <a style="border: 4px solid #121212; background-color: #121212; color: #d8e5e6; border-radius: 5px;">DocStrings</a>
+    <a style="border: 4px solid #121212; background-color: #121212; color: #d8e5e6; border-radius: 5px;">Generate DocStrings</a>
+    <a style="border: 4px solid #121212; background-color: #121212; color: #d8e5e6; border-radius: 5px;">Python Markdown DocStrings</a>
+    <a style="border: 4px solid #121212; background-color: #121212; color: #d8e5e6; border-radius: 5px;">DocStrings to Markdown</a>
+    <a style="border: 4px solid #121212; background-color: #121212; color: #d8e5e6; border-radius: 5px;">Documentation Generator</a>
+    <a style="border: 4px solid #121212; background-color: #121212; color: #d8e5e6; border-radius: 5px;">DocStrings Markdown</a>
+    <a style="border: 4px solid #121212; background-color: #121212; color: #d8e5e6; border-radius: 5px;">Elegant Docs</a>
+    <a style="border: 4px solid #121212; background-color: #121212; color: #d8e5e6; border-radius: 5px;">Module Doc Generator</a>
+    <a style="border: 4px solid #121212; background-color: #121212; color: #d8e5e6; border-radius: 5px;">Pure Python</a>
+    <a style="border: 4px solid #121212; background-color: #121212; color: #d8e5e6; border-radius: 5px;">DocString Scraper</a>
+    <a style="border: 4px solid #121212; background-color: #121212; color: #d8e5e6; border-radius: 5px;">Python Doc Generator</a>
+    <a style="border: 4px solid #121212; background-color: #121212; color: #d8e5e6; border-radius: 5px;">PyPI DocString Generator</a>
+    <a style="border: 4px solid #121212; background-color: #121212; color: #d8e5e6; border-radius: 5px;">Markdown Docs</a>
+    <a style="border: 4px solid #121212; background-color: #121212; color: #d8e5e6; border-radius: 5px;">Easy API Documentation Generator</a>
+    <a style="border: 4px solid #121212; background-color: #121212; color: #d8e5e6; border-radius: 5px;">Package Doc Generator</a>
+  </p>
+</body>
