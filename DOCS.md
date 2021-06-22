@@ -1,6 +1,5 @@
 Here's an example of what GenDoc can produce - *everything below the line was generated with the following command **in the termial***:
-**Long Syntax:** `gendoc --name GenDoc --version 1.0.0 --funcSections --codeFence --files gen_doc/main.py --fileHeader`
-**Short Syntax:** `gendoc --n GenDoc --v 1.0.0 --fs --cf --f gen_doc/main.py --fh`
+**Long Syntax:** `gendoc --name GenDoc --version 1.0.0 --funcSections --codeFence --files gen_doc/main.py --fileHeader`<br>**Short Syntax:** `gendoc --n GenDoc --v 1.0.0 --fs --cf --f gen_doc/main.py --fh`
 * **NOTE** that this does not use all the [available flags](/README.md)
 ---
 
