@@ -64,10 +64,11 @@ def extractDocStrings(filepath: str, parent: str = None, classSections: bool = F
         None: Used to signal the ommittance of the file from the docs,
         only returned when no functions were found
     """
-    relPath = os.path.relpath(filepath, start = parent).replace('.py', '')
-    relPathFormatted = relPath.replace('\\', '.')
+    relPath = os.path.relpath(filepath, start = parent) # literal relative path
+    relPathFormatted = relPath.replace('\\', '.').replace('.py', '') # pythonic implementation for path
+
     functions: list = []
-    retStr: str = f"## [{relPathFormatted}.py]({relPath})\n---\n" if fileHeaders else ""
+    retStr: str = f"## [{relPathFormatted}.py](/{relPath})\n---\n" if fileHeaders else ""
 
     # Getting file contents & initializing ast
     with open(rf"{filepath}", 'r', encoding='utf-8') as f:

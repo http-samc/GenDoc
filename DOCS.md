@@ -1,4 +1,4 @@
-## [gen_doc.main.py](gen_doc\main)
+## [gen_doc.main.py](/gen_doc\main.py)
 ---
 ### *Function* gen_doc.main.`extractDocStrings`
 <details style='color: #333333'><summary>Details</summary>
