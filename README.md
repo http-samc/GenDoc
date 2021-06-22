@@ -27,8 +27,11 @@ Additionaly, you can use the following flags in your terminal:
 |`--files`, `--f`|PATH to specific files you want to include in the Doc generation (only pulls from these files) (defaults to all `.py` files in the current directory)|
 |`--dir`, `--d`|PATH to the parent directory of the codebase (defaults to all `.py` files in the current directory)|
 |`--output`, `--o`|PATH to the output Markdown file (defaults to DOCS.md in current directory)|
-|`--emptyfunc`, `--e`|Message for function without a DocString (defaults to "*No documentation provided.*") (enter multiple words surrounded by "Quotes") (accepts markdown syntax)|
-
+|`--emptyfunc`, `--e`|Message for function without a DocString (enter multiple words surrounded by "Quotes") (accepts markdown syntax) (defaults to "*No documentation provided.*")|
+|`--classSections`, `--cs`|Add collapseable sections for classes (not generated if not called)|
+|`--methodSections`, `--ms`|Add collapseable sections for class methods (not generated if not called)|
+|`--funcSections`, `--fs`|Add collapseable sections for functions (not generated if not called)|
+|`--fileHeaders`, `--fh`|Add file name & relative path above it's classes and functions (creates GitHub-safe clickable link) (not generated if not called)|
 ### Notes:
 - Use either `--files` or `--dir`, never both
   - `--dir` is used to change the directory and then scrape all files within it
@@ -38,6 +41,7 @@ Additionaly, you can use the following flags in your terminal:
 - Anytime a PATH is requested, it does **not** need to be in the current directory, **both** relative and absolute PATHs are accepted
 - If you'd like to exclude any functions that do **not** have their own DocString, you can use the `--emptyfunc` flag and pass in the value **`0`**
 - The current default behavior is to exclude any files that do **not** contain any functions or classes
+- Clickable links generated with `--fileHeaders` might break if you are using a different directory or placing `DOCS.md` in a nested directory
 
 ## Future Development
 **GenDoc** was developed to be a simple, plug-and-play package. However, due to the level of styling customization required for many projects' documentation, an additional html-based API is being developed so developers can use their own external stylesheets.
