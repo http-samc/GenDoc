@@ -69,7 +69,7 @@ def extractDocStrings(filepath: str, parent: str = None, classSections: bool = F
         only returned when no functions were found
     """
     relPath = os.path.relpath(filepath, start = parent).replace('\\', '/') # literal relative path
-    relPathFormatted = relPath.replace('\\', '.').replace('.py', '') # pythonic implementation for path
+    relPathFormatted = relPath.replace('/', '.').replace('.py', '') # pythonic implementation for path
 
     functions: list = []
     retStr: str = f"## [{relPathFormatted}.py](/{relPath})\n---\n" if fileHeaders else ""
@@ -159,8 +159,7 @@ def extractDocStrings(filepath: str, parent: str = None, classSections: bool = F
 
 
             if functionDocString is None and excludeDocless: continue
-            functionName = function.name.replace('_', '\_') # preventing MD from turning __func__ to *func*
-            retStr += f"#### `{className}`.{functionName}\n" # adding class name in function def w/ nested emphasis
+            retStr += f"#### {className}.`{function.name}`\n" # adding class name in function def w/ nested emphasis
 
             if methodSections and functionDocString: retStr += "<details style='color: #333333'><summary>Details</summary><p>\n\n" # Opening Class Method section
             retStr += f"{functionDocString if functionDocString is not None else voidDocStringMSG}\n"
