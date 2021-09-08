@@ -1,5 +1,6 @@
 # GenDoc
 
+[![PyPi Downloads](https://www.smrth.dev/api/pypi-downloads/badge/gendoc)](https://pypi.org/project/gendoc)
 [![Codacy Badge](https://app.codacy.com/project/badge/Grade/fe0fd43e86524234bf0baf11e1061511)](https://www.codacy.com?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=http-samc/GenDoc&amp;utm_campaign=Badge_Grade) [![PyPI version](https://badge.fury.io/py/GenDoc.svg)](https://badge.fury.io/py/GenDoc) [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT) ![platform: independent](https://img.shields.io/endpoint?url=https%3A%2F%2Fapi.jsonbin.io%2Fb%2F6042e0a7121bf907dd96fa4a%2F13) ![Custom badge](https://img.shields.io/endpoint?url=https%3A%2F%2Fapi.jsonbin.io%2Fb%2F6042e0a7121bf907dd96fa4a%2F14)
 
  - Generate a Markdown Documentation file from a Python Repository with DocStrings.
@@ -16,9 +17,11 @@ Use **pip** in your terminal to install GenDoc. The commands are listed below:
 
 ## Use
 **GenDoc** is a CLI based application. After installation, you can call the utility in any terminal application as follows:
+---
 |Windows|Linux|MacOS|
 |---|---|---|
 `C:\> gendoc`|`user@ubuntu:~$ gendoc`|`mac:~ user$ gendoc`|
+
 - In all of these cases, you should be using **`cd`** to set your terminal directory to your project folder - otherwise you'll have to use the `--files` or `--dir` commands to specify your Python programs in order to avoid generating documentation for every single `.py` file on your computer!
 
 ##### You can also use any of the following flags in your terminal to customize your output (optional):
@@ -53,6 +56,3 @@ Use **pip** in your terminal to install GenDoc. The commands are listed below:
 **GenDoc** was developed to be a simple, plug-and-play package. However, due to the level of styling customization required for many projects' documentation, an additional html-based API is being developed so developers can use their own external stylesheets.
 
 PRs are welcome, and please contact [Samarth Chitgopekar](mailto:sam@chitgopekar.tech) for any questions, comments, or concerns.
-
----
-**`Python DocStrings` `Generate DocStrings` `Python Markdown DocStrings` `DocStrings to Markdown` `Documentation Generator` `DocStrings` `Markdown Elegant Docs` `Module Doc Generator` `Pure Python` `DocString Scraper` `Python Doc Generator` `PyPI DocString Generator` `Markdown Docs` `API Documentation Generator` `Package Doc Generator`**
