@@ -29,10 +29,19 @@ import ast
 import os
 from typing import Union
 
-def extractDocStrings(filepath: str, parent: str = None, classSections: bool = False,
-        methodSections: bool = False, funcSections: bool = False, fileHeaders: bool = False,
-        fence: bool = False, voidDocStringMSG: bool = "*No description provided*",
-        excludeDocless: bool = False) -> Union[str, None]:
+def extractDocStrings(
+
+        filepath: str,
+        parent: str = None,
+        classSections: bool = False,
+        methodSections: bool = False, 
+        funcSections: bool = False, 
+        fileHeaders: bool = False,
+        fence: bool = False, 
+        voidDocStringMSG: bool = "*No description provided*",
+        excludeDocless: bool = False
+
+    ) -> Union[str, None]:
     """Uses the ast module to extract DocStrings
     from a Python file.
 
@@ -70,7 +79,7 @@ def extractDocStrings(filepath: str, parent: str = None, classSections: bool = F
         only returned when no functions were found
     """
     relPath = os.path.relpath(filepath, start = parent).replace('\\', '/') # literal relative path
-    relPathFormatted = relPath.replace('/', '.').replace('.py', '') # pythonic implementation for path
+    relPathFormatted = relPath.replace('/', '.').replace('.py', '') # How Python understands the patb (eg. imports)
 
     functions: list = []
     retStr: str = f"## [{relPathFormatted}.py](/{relPath})\n---\n" if fileHeaders else ""
